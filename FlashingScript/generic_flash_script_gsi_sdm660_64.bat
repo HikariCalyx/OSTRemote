@@ -52,6 +52,8 @@ findstr "boot.img" list.txt > tmp.txt
 set /p boot_sdm660=<tmp.txt
 findstr "system.img" list.txt > tmp.txt
 set /p systema_sdm660=<tmp.txt
+echo %systema_sdm660:~0,3% > tmp.txt
+set /p fwprojectcode=<tmp.txt
 findstr "system_other.img" list.txt > tmp.txt
 set /p systemb_sdm660=<tmp.txt
 findstr "BTFM.bin" list.txt > tmp.txt
@@ -76,7 +78,6 @@ findstr "logfs" list.txt > tmp.txt
 set /p logfs_sdm660=<tmp.txt
 del list.txt
 del tmp.txt
-
 echo.
 echo Hi there! This script is designed for flashing FIH gsi_sdm660_64 devices
 echo back to factory stock without using OST LA.
@@ -105,8 +106,28 @@ if not exist adbwinusbapi.dll goto errorx
 echo.
 echo Please connect your powered off phone or phone that entered Download mode
 fastboot oem alive>nul
+fastboot devices > tmp.txt
+set /p devsn=<tmp.txt
+echo %devsn:~0,16% > tmp.txt
+set /p devsn=<tmp.txt
+echo %devsn:~0,3% > tmp.txt
+set /p actprojectcode=<tmp.txt
+del tmp.txt
+echo.
+echo Your Phone's serial number is %devsn:~0,16% and the Project Code is %actprojectcode:~0,3%.
+echo The firmware itself is used for %fwprojectcode:~0,3%.
+echo.
+if "%actprojectcode%"=="%fwprojectcode%" goto pass
+echo Warning! You're trying to flash firmware that's not made for your device.
+echo If you don't know what you're doing, please close the window and double check again.
+echo.
+echo Press any key to ignore this.
+pause>nul
+:pass
 cls
 echo.
+echo Your Phone's serial number is %devsn:~0,16% and the Project Code is %actprojectcode:~0,3%.
+echo The firmware itself is used for %fwprojectcode:~0,3%.
 echo.
 fastboot oem getversions
 echo.
