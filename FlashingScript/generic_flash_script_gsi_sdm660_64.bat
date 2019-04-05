@@ -142,7 +142,7 @@ pause>nul
 echo.
 echo Flashing critical partitions...
 echo.
-fastboot flash partition_a %partition_sdm660%
+fastboot flash partition %partition_sdm660%
 if %errorlevel% equ 1 goto errorcritical
 fastboot flash xbl_a %xbls_sdm660%
 fastboot flash xbl_b %xbls_sdm660%
