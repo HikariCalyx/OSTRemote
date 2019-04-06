@@ -1,3 +1,4 @@
+#!/bin/bash
 title="Flashing script for MediaTek AB devices"
 echo "Initializing..."
 echo " "
