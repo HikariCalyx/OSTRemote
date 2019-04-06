@@ -102,6 +102,8 @@ echo 正在解锁，请稍等...
 fastboot flash unlock %unlockkey%
 if "%errorlevel%"=="1" goto errorunlock
 fastboot flashing unlock_critical
+if "%errorlevel%"=="1" goto trygo
+if "%errorlevel%"=="0" set critlock=1
 if "%actprojectcode:~0,3%"=="E1M" goto next2
 if "%actprojectcode:~0,3%"=="D1A" goto next2
 if "%actprojectcode:~0,3%"=="D1L" goto next2
@@ -121,7 +123,9 @@ ping 127.0.0.1>nul
 echo 等待手机重启中...
 fastboot oem alive
 fastboot flash unlock %unlockkey%
+:trygo
 fastboot oem unlock-go
+if "%errorlevel%"=="1" goto aunlocked
 if "%actprojectcode:~0,3%"=="E1M" goto next4
 if "%actprojectcode:~0,3%"=="D1A" goto next4
 if "%actprojectcode:~0,3%"=="D1L" goto next4
@@ -299,7 +303,20 @@ fb2 oem getProjectCode
 pause>nul
 goto selection
 
+:aunlocked
+if "%critlock%"=="1" goto next4
+echo.
+echo 错误：手机已经是 Bootloader 解锁状态。
+echo.
+fastboot oem device-info
+echo.
+echo 请按任意键返回主菜单。
+echo.
+pause>nul
+goto selection
+
 :errorlock
+if "%critlock%"=="1" goto next10
 echo.
 echo 错误：手机已经是 Bootloader 回锁状态。
 echo.
