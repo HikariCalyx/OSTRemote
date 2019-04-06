@@ -1,3 +1,4 @@
+#!/bin/bash
 title="Flashing script for fih_gsi_sdm660_64 devices"
 echo "Initializing..."
 echo " "
