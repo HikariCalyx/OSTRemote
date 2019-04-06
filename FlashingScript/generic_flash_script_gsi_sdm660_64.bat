@@ -6,6 +6,9 @@ echo.
 echo Initializing...
 rem Navigating these partitions
 dir /b > list.txt
+if exist modem.img goto otaflashinginit
+if exist payload.bin goto otaflashingbefore
+:returnx
 findstr "gpt_both0.bin" list.txt > tmp.txt
 set /p partition_sdm660=<tmp.txt
 findstr "abl.elf" list.txt > tmp.txt
@@ -78,6 +81,7 @@ findstr "logfs" list.txt > tmp.txt
 set /p logfs_sdm660=<tmp.txt
 del list.txt
 del tmp.txt
+:normal
 echo.
 echo Hi there! This script is designed for flashing FIH gsi_sdm660_64 devices
 echo back to factory stock without using OST LA.
@@ -115,6 +119,7 @@ set /p actprojectcode=<tmp.txt
 del tmp.txt
 echo.
 echo Your Phone's serial number is %devsn:~0,16% and the Project Code is %actprojectcode:~0,3%.
+if %otapackagemode% equ 1 goto pass
 echo The firmware itself is used for %fwprojectcode:~0,3%.
 echo.
 if "%actprojectcode%"=="%fwprojectcode%" goto pass
@@ -127,7 +132,7 @@ pause>nul
 cls
 echo.
 echo Your Phone's serial number is %devsn:~0,16% and the Project Code is %actprojectcode:~0,3%.
-echo The firmware itself is used for %fwprojectcode:~0,3%.
+if %errorlevel% neq 0 echo The firmware itself is used for %fwprojectcode:~0,3%.
 echo.
 fastboot oem getversions
 echo.
@@ -142,6 +147,7 @@ pause>nul
 echo.
 echo Flashing critical partitions...
 echo.
+if %otapackagemode% equ 1 goto otaflashing
 fastboot flash partition %partition_sdm660%
 if %errorlevel% equ 1 goto errorcritical
 fastboot flash xbl_a %xbls_sdm660%
@@ -150,7 +156,6 @@ fastboot flash abl_a %abls_sdm660%
 fastboot flash abl_b %abls_sdm660%
 fastboot flash tz_a %tz_sdm660%
 fastboot flash rpm_a %rpm_sdm660%
-fastboot flash hwcfg %hwcfg_sdm660%
 fastboot flash hyp_a %hyp_sdm660%
 fastboot flash pmic_a %pmic_sdm660%
 fastboot flash keymaster_a %keymaster_sdm660%
@@ -167,6 +172,7 @@ echo.
 echo Please wait while phone is rebooting...
 echo.
 fastboot oem alive>nul
+:normal2
 echo.
 echo Flashing non-critical partitions...
 echo.
@@ -179,6 +185,7 @@ echo.
 echo Flashing system partition, please wait...
 echo.
 fastboot flash system_a %systema_sdm660%
+if %otapackagemode% equ 1 goto otaflashing2
 fastboot flash system_b %systemb_sdm660%
 fastboot flash bluetooth_a %bluetooth_sdm660%
 fastboot flash persist %persist_sdm660%
@@ -203,6 +210,7 @@ fastboot oem enable-charger-screen
 fastboot flash logfs %logfs_sdm660%
 echo Verifying flashing result, please wait...
 fastboot flash md4 md4.dat
+:normal3
 fastboot reboot
 echo All done! Press any key to exit.
 echo.
@@ -233,5 +241,145 @@ echo ERROR: You didn't perform bootloader unlock. Please confirm again.
 fastboot reboot
 pause>nul
 goto EOF
+
+:otaflashingbefore
+echo.
+echo payload.bin detected.
+echo.
+echo You'll need to use Payload Dumper to dump the payload file.
+echo.
+echo The payload dumper can be downloaded from following URL:
+echo.
+echo https://gist.github.com/ius/42bd02a5df2226633a342ab7a9c60f15
+echo.
+echo You must put payload_dumper.py and update_metadata2_pb2.py to the same directory
+echo of this script.
+echo.
+echo.To use payload dumper, you must have Python 3 installed.
+echo.
+echo Please type lowercase "yes" to confirm, then press Enter Key to proceed. 
+echo.
+echo Otherwise press Enter Key with nothing typed will ignore the payload.bin.
+echo.
+set /p econfirm=
+if "%econfirm%"=="yes" goto startdump
+goto returnx
+:startdump
+set econfirm=
+if exist payload_dumper.exe goto pdumperexe
+pip3 install protobuf
+if %errorlevel% equ 9009 goto nopython
+if not exist payload_dumper.py goto errornoscript
+if not exist update_metadata_pb2.py goto errornoscript
+python payload_dumper.py payload.bin
+if %errorlevel% neq 0 goto errorscript2
+goto otaflashinginitd
+
+:errornopython
+echo.
+echo ERROR: Your PC doesn't have Python 3 installed. Therefore the payload dumping will be skipped.
+echo.
+pause
+goto returnx
+
+:pdumperexe
+echo.
+payload_dumper payload.bin
+if %errorlevel% neq 0 goto errorscript2
+goto otaflashinginitd
+
+:errornoscript
+echo.
+echo ERROR: You didn't put both scripts to the same directory of this script.
+echo Therefore the payload dumping will be skipped.
+echo.
+pause
+goto returnx
+
+:errorscript2
+echo.
+echo ERROR: The script didn't process the payload.bin well.
+echo Therefore the payload dumping will be skipped.
+echo.
+pause
+goto returnx
+
+:otaflashinginit
+echo.
+echo Unpacked OTA package detected. 
+echo.
+echo Please type lowercase "yes" to confirm, then press Enter Key to proceed. 
+echo.
+echo Otherwise press Enter Key with nothing typed will ignore the unpacked OTA.
+echo.
+set /p econfirm=
+echo.
+if "%econfirm%"=="yes" goto n3
+goto returnx
+:n3
+set econfirm=
+:otaflashinginitd
+if not exist new_system.img echo Converting system image to sparse, please wait...
+if not exist new_system.img img2simg system.img new_system.img
+if not exist new_vendor.img echo Converting vendor image to sparse, please wait...
+if not exist new_vendor.img img2simg vendor.img new_vendor.img
+set abl_sdm660=abl.img
+set bluetooth_sdm660=bluetooth.img
+set boot_sdm660=boot.img
+set cmnlib_sdm660=cmnlib.img
+set cmnlib64_sdm660=cmnlib64.img
+set devcfg_sdm660=devcfg.img
+set dsp_sdm660=dsp.img
+set hidden_sdm660=hidden.img
+set hyp_sdm660=hyp.img
+set keymaster_sdm660=keymaster.img
+set mdtp_sdm660=mdtp.img
+set mdtpsecapp_sdm660=mdtpsecapp.img
+set modem_sdm660=modem.img
+set nvdef_sdm660=nvdef.img
+set pmic_sdm660=pmic.img
+set rpm_sdm660=rpm.img
+set splash_sdm660=splash.img
+set systema_sdm660=new_system.img
+set systeminfo_sdm660=systeminfo.img
+set tz_sdm660=tz.img
+set vendor_sdm660=new_vendor.img
+set xbl_sdm660=xbl.img
+set otapackagemode=1
+goto normal
+
+:otaflashing
+fastboot flash xbl_a %xbl_sdm660%
+if %errorlevel% equ 1 goto errorcritical
+fastboot flash xbl_b %xbl_sdm660%
+fastboot flash abl_a %abl_sdm660%
+fastboot flash abl_b %abl_sdm660%
+fastboot flash tz_a %tz_sdm660%
+fastboot flash rpm_a %rpm_sdm660%
+fastboot flash hyp_a %hyp_sdm660%
+fastboot flash pmic_a %pmic_sdm660%
+fastboot flash keymaster_a %keymaster_sdm660%
+fastboot flash cmnlib_a %cmnlib_sdm660%
+fastboot flash cmnlib64_a %cmnlib64_sdm660%
+fastboot flash dsp_a %dsp_sdm660%
+fastboot flash devcfg_a %devcfg_sdm660%
+fastboot flash mdtpsecapp_a %mdtpsecapp_sdm660%
+fastboot flash systeminfo_a %systeminfo_sdm660%
+goto normal2
+
+:otaflashing2
+fastboot flash bluetooth_a %bluetooth_sdm660%
+if "%econfirm%"=="yes" fastboot format userdata
+fastboot flash nvdef_a %nvdef_sdm660%
+fastboot flash hidden_a %hidden_sdm660%
+if "%econfirm%"=="yes" fastboot erase ssd
+if "%econfirm%"=="yes" fastboot erase misc
+if "%econfirm%"=="yes" fastboot erase sti
+fastboot flash splash_a %splash_sdm660%
+fastboot flash vendor_a %vendor_sdm660%
+if "%econfirm%"=="yes" fastboot erase ddr
+fastboot oem set_active _a
+fastboot oem enable-charger-screen
+goto normal3
 
 :EOF
