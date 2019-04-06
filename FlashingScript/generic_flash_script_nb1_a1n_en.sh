@@ -1,3 +1,4 @@
+#!/bin/bash
 title="Flashing script for NB1 and A1N"
 echo "Initializing..."
 echo " "
