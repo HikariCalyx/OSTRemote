@@ -105,6 +105,8 @@ echo Unlocking, please wait...
 fastboot flash unlock %unlockkey%
 if "%errorlevel%"=="1" goto errorunlock
 fastboot flashing unlock_critical
+if "%errorlevel%"=="1" goto trygo
+if "%errorlevel%"=="0" set critlock=1
 if "%actprojectcode:~0,3%"=="E1M" goto next2
 if "%actprojectcode:~0,3%"=="D1A" goto next2
 if "%actprojectcode:~0,3%"=="D1L" goto next2
@@ -124,7 +126,9 @@ ping 127.0.0.1>nul
 echo Waiting reboot...
 fastboot oem alive
 fastboot flash unlock %unlockkey%
+:trygo
 fastboot oem unlock-go
+if "%errorlevel%"=="1" goto aunlocked
 if "%actprojectcode:~0,3%"=="E1M" goto next4
 if "%actprojectcode:~0,3%"=="D1A" goto next4
 if "%actprojectcode:~0,3%"=="D1L" goto next4
@@ -216,6 +220,7 @@ echo.
 echo Relocking, please wait...
 fastboot flashing lock_critical
 if "%errorlevel%"=="1" goto next9a
+if "%errorlevel%"=="0" set critlock=1
 if "%actprojectcode:~0,3%"=="E1M" goto next8
 if "%actprojectcode:~0,3%"=="D1A" goto next8
 if "%actprojectcode:~0,3%"=="D1L" goto next8
@@ -308,7 +313,21 @@ fb2 oem getProjectCode
 pause>nul
 goto selection
 
+
+:aunlocked
+if "%critlock%"=="1" goto next4
+echo.
+echo ERROR: Your phone already has unlocked bootloader.
+echo.
+fastboot oem device-info
+echo.
+echo Press any key to return to menu.
+echo.
+pause>nul
+goto selection
+
 :errorlock
+if "%critlock%"=="1" goto next10
 echo.
 echo ERROR: Your phone already has locked bootloader.
 echo.
