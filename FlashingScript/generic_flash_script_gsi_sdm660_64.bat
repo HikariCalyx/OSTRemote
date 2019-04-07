@@ -425,7 +425,7 @@ echo.Flashing done.
 echo.
 echo Do you want to switch to slot %cslot% right now?
 echo.
-echo.Please type lowercase "yes" to confirm erasing, then press Enter Key to proceed. 
+echo.Please type lowercase "yes" to confirm switching, then press Enter Key to proceed. 
 echo.
 echo.Otherwise, press Enter Key will only reboot your phone.
 echo.
