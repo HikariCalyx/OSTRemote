@@ -1,4 +1,3 @@
-#!/bin/bash
 title="Flashing script for fih_gsi_sdm660_64 devices"
 echo "Initializing..."
 echo " "
@@ -13,7 +12,7 @@ rpm_sdm660=`grep "rpm.mbn" list.txt`
 hwcfg_sdm660=`grep "hwcfg.img" list.txt`
 hyp_sdm660=`grep "hyp.mbn" list.txt`
 pmic_sdm660=`grep "pmic.elf" list.txt`
-keymaster_sdm660=`grep "keymaster64.mbn" list.txt`
+keymaster_sdm660=`grep "keymaster" list.txt`
 cmnlib_sdm660=`grep "cmnlib.mbn" list.txt`
 cmnlib64_sdm660=`grep "cmnlib64.mbn" list.txt`
 dsp_sdm660=`grep "dspso.bin" list.txt`
@@ -148,6 +147,7 @@ fi
 	fastboot flash nvdef_a $nvdef_sdm660
 	fastboot flash hidden_a $hidden_sdm660
 	fastboot flash cda_a $cda_sdm660
+	fastboot flash hwcfg $hwcfg_sdm660
 	if [ $econfirm=="yes" ]; then
 		fastboot erase ssd
 		fastboot erase misc

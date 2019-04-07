@@ -1,4 +1,3 @@
-#!/bin/bash
 title="Flashing script for NB1 and A1N"
 echo "Initializing..."
 echo " "
@@ -157,6 +156,7 @@ fi
 	fastboot flash splash_a $splash_sdm835
 	fastboot flash splash2 $splash2_sdm835
 	fastboot flash mdtpsecapp_a $mdtpsecapp_sdm835
+	fastboot flash hwcfg $hwcfg_sdm835
 	fastboot flash storsec $storsec_sdm835
 	fastboot flash xbl_a $xbl_sdm835
 	fastboot flash xbl_b $xbl_sdm835
