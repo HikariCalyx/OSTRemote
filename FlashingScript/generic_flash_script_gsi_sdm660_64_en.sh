@@ -142,6 +142,7 @@ fi
 	fastboot flash persist $persist_sdm660
 	if [ $econfirm=="yes" ]; then
 		fastboot format userdata
+		else    echo "skip userdata erasing..."
 	fi
 	fastboot flash sutinfo $sutinfo_sdm660
 	fastboot flash nvdef_a $nvdef_sdm660
@@ -152,12 +153,14 @@ fi
 		fastboot erase ssd
 		fastboot erase misc
 		fastboot erase sti
+		else    echo "skip ssd-misc-sti erasing..."
 	fi
 	fastboot flash splash_a $splash_sdm660
 	fastboot flash splash2 $splash2_sdm660
 	fastboot flash vendor_a $vendor_sdm660
 	if [ $econfirm=="yes" ]; then
 		fastboot erase ddr
+		else    echo "skip ddr erasing..."
 	fi
 	fastboot flash xbl_a $xbl_sdm660
 	fastboot flash xbl_b $xbl_sdm660
