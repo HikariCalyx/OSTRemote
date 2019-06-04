@@ -42,6 +42,10 @@ findstr "userdata.img" list.txt > tmp.txt
 set /p ud_mtkab=<tmp.txt
 findstr "md1img.img" list.txt > tmp.txt
 set /p md1img_mtkab=<tmp.txt
+findstr "md1arm7.img" list.txt > tmp.txt
+set /p md1arm7_mtkab=<tmp.txt
+findstr "md1dsp.img" list.txt > tmp.txt
+set /p md1dsp_mtkab=<tmp.txt
 findstr "sutinfo.img" list.txt > tmp.txt
 set /p sutinfo_mtkab=<tmp.txt
 findstr "cda.img" list.txt > tmp.txt
@@ -133,6 +137,10 @@ fastboot flash vendor_a %vendor_mtkab%
 fastboot flash boot_a %boot_mtkab%
 fastboot erase boot_b
 fastboot flash userdata %ud_mtkab%
+if "%md1arm7_mtkab%"=="" goto nomd1a
+fastboot flash md1arm7_a %md1arm7_mtkab%
+fastboot flash md1dsp_a %md1dsp_mtkab%
+:nomd1a
 fastboot flash md1img_a %md1img_mtkab%
 fastboot flash sutinfo %sutinfo_mtkab%
 fastboot flash cda_a %cda_mtkab%
