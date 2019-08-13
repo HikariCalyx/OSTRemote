@@ -151,6 +151,7 @@ fastboot flash vbmeta_a %vbm_mtkab%
 echo Verifying flashing result, please wait...
 if exist md4.dat fastboot flash md4 md4.dat
 if exist md5.dat fastboot flash md5 md5.dat
+fastboot erase frp
 fastboot reboot
 echo All done! Press any key to exit.
 echo.
