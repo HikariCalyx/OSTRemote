@@ -116,10 +116,18 @@ fastboot flash lk_b %lk_mtkab%
 fastboot flash tee_a %tee_mtkab%
 fastboot flash odmdtbo_a %odmdtbo_mtkab%
 fastboot flash odmdtbo_b %odmdtbo_mtkab%
+if "%actprojectcode%"=="CO2" goto logo_aonly
+if "%actprojectcode%"=="ES2" goto logo_aonly
+goto logoab
+:logo_aonly
+fastboot flash logo %logo_mtkab%
+goto bypass2
+:logoab
 fastboot flash logo_a %logo_mtkab%
 fastboot flash spmfw_a %spmfw_mtkab%
 fastboot flash scp_a %scp_mtkab%
 fastboot flash sspm_a %sspm_mtkab%
+:bypass2
 if "%cv1_mtkab%"=="" goto nocv
 fastboot flash cam_vpu1_a %cv1_mtkab%
 fastboot flash cam_vpu2_a %cv2_mtkab%
