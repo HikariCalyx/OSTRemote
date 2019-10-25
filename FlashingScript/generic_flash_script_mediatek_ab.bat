@@ -14,6 +14,8 @@ findstr "odmdtbo.img" list.txt > tmp.txt
 set /p odmdtbo_mtkab=<tmp.txt
 findstr "logo.bin" list.txt > tmp.txt
 set /p logo_mtkab=<tmp.txt
+findstr "secro.img" list.txt > tmp.txt
+set /p secro_mtkab=<tmp.txt
 findstr "spmfw.img" list.txt > tmp.txt
 set /p spmfw_mtkab=<tmp.txt
 findstr "scp.img" list.txt > tmp.txt
@@ -121,6 +123,7 @@ if "%actprojectcode%"=="ES2" goto logo_aonly
 goto logoab
 :logo_aonly
 fastboot flash logo %logo_mtkab%
+fastboot flash secro %secro_mtkab%
 goto bypass2
 :logoab
 fastboot flash logo_a %logo_mtkab%
