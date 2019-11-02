@@ -1,49 +1,3 @@
-::[Bat To Exe Converter]
-::
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHO0S4UDbc8QrxTRfgM5s
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHO0Y7xfiZtgu2XRc+A==
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHO0Y7xfiZtgozn86
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHPAS80nrdJIS0m9XiM4eQgtBHg==
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHPUD7kTwcKkg025bnMoYDSRIfEDlfhZU
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHMEX6HLte7c93zRelMds
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHMEX6HLte6M+1FtKkYUIABc4
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHOMK7ULndqk+mysUnMcAbA==
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHOMK7VLte8dj0nZW+A==
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHOMK7V+qcZohtg==
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHOYS+VHmepk5mH9Cnas=
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHOcW5ED2fJUS0HZbi8MzHxhKdwK/UR86sSBAt3Dl
-::fBE1pAF6MU+EWH7eyGoTHChjczSsBCbuV+A+pbi2v7qwlQA/BLEAdpvU1LiXHOke7Rf3fJsqmH9Cnas=
-::YAwzoRdxOk+EWAjk
-::fBw5plQjdCyDJGyX8VAjFDNdRwWQNUi7Coks4evv+viCsXEbVe4leZ2V07eBQA==
-::YAwzuBVtJxjWCl3EqQJgSA==
-::ZR4luwNxJguZRRnk
-::Yhs/ulQjdF+5
-::cxAkpRVqdFKZSDk=
-::cBs/ulQjdF+5
-::ZR41oxFsdFKZSDk=
-::eBoioBt6dFKZSDk=
-::cRo6pxp7LAbNWATEpSI=
-::egkzugNsPRvcWATEpSI=
-::dAsiuh18IRvcCxnZtBJQ
-::cRYluBh/LU+EWAnk
-::YxY4rhs+aU+IeA==
-::cxY6rQJ7JhzQF1fEqQJhZksaHErTaAs=
-::ZQ05rAF9IBncCkqN+0xwdVsFAlTMbCXrUtU=
-::ZQ05rAF9IAHYFVzEqQIXLRVRXg2BfE22B6YU4eb8r9mEsEQNQKI5d52b6pq2QA==
-::eg0/rx1wNQPfEVWB+kM9LVsJDAOHMm6oD7Yj7uT6/OK4sU4PXfIrR5/VwvqLOOVz
-::fBEirQZwNQPfEVWB+kM9LVsJDCOkD1SKKI18
-::cRolqwZ3JBvQF1fEqQIXLRVRXg2BfE22B6YU4eb8r9mEsEQNQKI5d52b6pq2QA==
-::dhA7uBVwLU+EWHGN/0MiIVt3TQibJCuOA7YUiA==
-::YQ03rBFzNR3SWATE3Es7KQldDCeDMHKiRoEZ6+Cb
-::dhAmsQZ3MwfNWATEphJhcVYGHFbSfCOZT/U04eP6/ePHgUwRTfp/TIrY0vrOAewfqlftcp45xTpondgJHg1delzL
-::ZQ0/vhVqMQ3MEVWAtB9wSA==
-::Zg8zqx1/OA3MEVWAtB9wSA==
-::dhA7pRFwIByZRRnk
-::Zh4grVQjdCiDJHGnwHEHFyt6dEnWbT6YS+VRuLjM2Kel8h4iWvYwdoPC5rOLLuUB40bbc5osxXJli8geBQtMQQKldkExsWsi
-::YB416Ek+ZG8=
-::
-::
-::978f952a14a936cc963da21a135fa983
 @echo off
 title Flashing script for PNX
 cls
@@ -92,7 +46,6 @@ findstr "boot.img" list.txt > tmp.txt
 set /p boot_pnx=<tmp.txt
 findstr "system.img" list.txt > tmp.txt
 set /p systema_pnx=<tmp.txt
-echo %systema_pnx:~0,3% > tmp.txt
 findstr "dtbo.img" list.txt > tmp.txt
 set /p dtbo_pnx=<tmp.txt
 findstr "qup" list.txt > tmp.txt
@@ -157,7 +110,8 @@ echo %devsn:~0,16% > tmp.txt
 set /p devsn=<tmp.txt
 echo %devsn:~0,3% > tmp.txt
 set /p actprojectcode=<tmp.txt
-del tmp.txt
+set /p fwver=<%systeminfo_aop%
+set fwprojectcode=%fwver:~4,3%
 echo.
 echo Your Phone's serial number is %devsn:~0,16% and the Project Code is %actprojectcode:~0,3%.
 rem goto pass
@@ -182,25 +136,28 @@ echo.
 echo.
 fastboot oem device-info
 echo.
+if "%fwver:~0,10%"=="MLF,HCTSW_" (
+echo The firmware you're going to flash is %fwver:~4,25%.
+) else (
+echo The firmware you're going to flash is %fwver:~4,19%.
+)
 echo.
 echo Please check information above.
 echo If both "Device unlocked" and "Device critical unlocked" are
 echo indicated as "true", press any key to proceed.
 pause>nul
 set /p fwver=<%systeminfo_pnx%
-if "%fwver:~3,5%"=="PNX-0" set fuseissue=1
-if "%fwver:~3,5%"=="PNX-1" set fuseissue=1
-if "%fwver:~3,5%"=="PNX-2" set fuseissue=1
-if "%fwver:~3,5%"=="PNX-3" set fuseissue=1
+if "%fwver:~4,5%"=="PNX-0" set fuseissue=1
+if "%fwver:~4,5%"=="PNX-1" set fuseissue=1
+if "%fwver:~4,5%"=="PNX-2" set fuseissue=1
+if "%fwver:~4,5%"=="PNX-3" set fuseissue=1
 echo.
-echo %fwver:~3,19%
 echo.
-pause
 if "%fuseissue%"=="1" (
 echo.
 echo WARNING. Your build may not have patched the fuse issue, thus your phone could not become
 echo flashable after nofuse ABL overwritten.
-echo If you want to overwrite nofuse ABL, please input "yes" (without quotes) and press enter.
+echo "If you want to overwrite nofuse ABL, please input yes and press enter."
 echo Otherwise the script will skip abl flashing procedure.
 echo.
 set /p fconfirm=
