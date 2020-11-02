@@ -1,0 +1,16 @@
+[Unit]
+Description=NGINX
+After=dhcpd.service
+[Service]
+Type=forking
+PIDFile=/usr/local/nginx/logs/nginx.pid
+ExecStartPre=/usr/local/nginx/sbin/nginx -t -c /usr/local/nginx/conf/nginx.conf
+ExecStart=/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+ExecReload=/usr/local/nginx/sbin/nginx -s reload
+ExecStop=/usr/local/nginx/sbin/nginx -s stop
+PrivateTmp=true
+Restart=on-failure
+RestartSec=8
+StartLimitInterval=0
+[Install]
+WantedBy=multi-user.target
