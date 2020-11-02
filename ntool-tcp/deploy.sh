@@ -13,7 +13,7 @@
 
 NginxUrlPrefix="https://nginx.org/download/"
 NginxVersion="1.19.4"
-ConfigurationUrlPrefix="https://raw.githubusercontent.com/HikariCalyx/OSTRemote/master/"
+ConfigurationUrlPrefix="https://raw.githubusercontent.com/HikariCalyx/OSTRemote/master/ntool-tcp/"
 
 check-if-root()
 {
