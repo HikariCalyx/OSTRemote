@@ -365,7 +365,7 @@ echo.
 dir /b *.img > list.txt
 for /f "delims=." %%i in (list.txt) do set "%%i=%%i.img"&echo fastboot flash %%i_%wslot% %%i.img>>flashit.cmd
 del list.txt
-if not exist vendor.img.ext4 ren system.img system.img.ext4
+if not exist system.img.ext4 ren system.img system.img.ext4
 if not exist vendor.img.ext4 ren vendor.img vendor.img.ext4
 if not exist system.img echo Converting system image to sparse, please wait...
 if not exist system.img img2simg system.img.ext4 system.img
