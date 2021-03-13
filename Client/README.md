@@ -4,4 +4,5 @@ HCTSW (Hikari Calyx Tech SoftWare) Care has gradually disposed NTool for many re
 
 ## HCTSW Care UU2
 
-HCTSW Care 
+This is the new bootloader unlock utility used by HCTSW Care.
+Unlike HCTSW Care UU1, UU2 remains open source for those who're still worrying about the tools safety.
