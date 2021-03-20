@@ -1,0 +1,125 @@
+set localized_value=1
+set copyright=Copyright (C) 2015-2021 Hikari Calyx Tech. All Rights Reserved.
+set h0001a=Usage:
+set h0001b=[parameter]
+set h0002=Parameters:
+set h0003= -?, -h, --help                       : Show this help.
+set h0004= -v, --verbose                        : Enter verbose mode. 
+set h0005a= -m [mlf_file], --mlffile=[mlf_file]  : Specify the path of mlf format firmware file. 
+set h0005b=                                        Mandatory for firmware flashing.
+set h0006= -n [nb0_file], --nb0file=[nb0_file]  : Specify the path of nb0 format firmware file. 
+set h0007= -e, --erase-user-data                : Erase user data during flashing procedure. 
+set h0008a= -s [skuid], --skuid=[skuid]          : Change SKUID to desired value. Leave empty in
+set h0008b=                                        SKUID value for automatic SKUID definition. 
+set h0009= -f, --erase-frp                      : Erase FRP and bbox during flashing procedure. 
+set h0010a= -o, --override                       : Skip flashing security check. NOT RECOMMENDED
+set h0010b=                                        for inexperienced end-users. 
+set h0011= -t [otp_code], --token=[otp_code]    : Specify OTP code given by HCTSW Care. 
+set h0012= -E, --edl-mode                       : (Qualcomm SoC only) Use Emergency Download mode. 
+set h0013= -p, --pretest                        : List detailed information of the phone. 
+set h0014a= -S, --skip-authentication            : Skip authentication procedure. Can be only used on
+set h0014b=                                        supported devices with unlocked bootloader, -s and -f
+set h0014c=                                        parameters will become invalid with it provided.
+set h0015a= -a, --authentication-only            : Grant service permission only. If not using under
+set h0015b=                                        service bootloader, -e, -s and -f parameters are invalid.
+set h0016= -D, --disable-fac-mode               : Disable Factory Bar Code mode.
+set h0017a= -H, --halt                           : Power off the phone. if specified with firmware
+set h0017b=                                        flashing, it will power off the phone after procedure.
+set h0018a= -i1 [imei1], --imei1=[imei1]         : Change IMEI1 to desired value. You must specify the
+set h0018b=                                        path of firmware file to use it.
+set h0019a= -i2 [imei2], --imei2=[imei2]         : Change IMEI2 to desired value. You must specify the
+set h0020a= -m [meid], --meid=[meid]             : Change MEID to desired value. You must specify the
+set h0021a= -w [wlan_mac], --wlan=[wlan_mac]     : Change WLAN MAC to desired value. You must specify the
+set h0022a= -b [bt_addr], --bluetooth=[bt_addr]  : Change Bluetooth Address to desired value. You must
+set h0022b=                                        specify the path of firmware file to use it.
+set ex0001=Examples: 
+set ex0002a=Flash DRG-415C-0-00WW-B01.mlf into the phone: 
+set ex0002b=-m C:\path\to\FIHSW_DRG-415C-0-00WW-B01\DRG-415C-0-00WW-B01.mlf -e -s 600WW
+set ex0003a=Flash E2M-0390-0-00WW-B02.nb0 into the phone with unlocked bootloader: 
+set ex0003b=-n C:\path\to\E2M-0390-0-00WW-B02.nb0 -e -S
+set ex0004a=Erase FRP and format userdata under service bootloader: 
+set ex0004b=-a -e -f
+set ex0005a=Flash HH6-350D-0-00A0-B01.mlf into the phone and power it off: 
+set ex0005b=-m C:\path\to\FIHSW_HH6-350D-0-00A0-B01\HH6-350D-0-00A0-B01.mlf -e -H
+set override_notice=If you'd like to take your own risk, please add -o or --override parameter to skip safety check, or this tool will not work.
+set t0001=OSTRemote Client
+set t0002=Pretest Mode
+set t0003=Please connect your phone under Fastboot / Download Mode or powered off state
+set t0004=Serial Number: 
+set t0005=SUSPICIOUS PROTOTYPE UNIT DETECTED
+set t0006=Project Code: 
+set t0007=Security Version: 
+set t0008=Hardware SKU: 
+set t0009=Branch SKU: 
+set t0010=FIH Build Version: 
+set t0011=Firmware Region: 
+set t0012=Revision: 
+set t0013=Hardware Revision: 
+set t0014=Frequency Bands: 
+set t0015=Chip Version: 
+set t0016=MCP Version: 
+set t0017=EMMC Version: 
+set t0018=UFS Version: 
+set t0019=Secure Boot: 
+set t0020=Current Slot: 
+set t0021=Bootloader Unlocked: 
+set t0022=System Tampered: 
+set t0023=Device Unlock: 
+set t0024=Device Critical Unlock: 
+set t0025=Power-Off Charging Animation: 
+set t0026=Brand Code: 
+set t0027=Verity Mode: 
+set t0028=Pretest Complete. How would you like to process your phone next?
+set t0029=Phone rebooted.
+set t0030=Please disconnect your phone to power it off.
+set t0031=Firmware safety check is passed, you may proceed.
+set t0032=ERROR: Safety Check failed. Your firmware doesn't have FIHSW description file (systeminfo.img or fver) and safety cannot be checked.
+set t0033a=Current Device FIH Project Code: 
+set t0033b=Target Firmware FIH Project Code: 
+set t0033c=ERROR: Safety Check failed. Firmware mismatch your device.
+set t0034=ERROR: Insecure MediaTek model downgrade request detected. Your phone will become brick without using workaround.
+set t0035=ERROR: Insecure PNX downgrade request detected. Your phone will become brick without using workaround.
+set t0036=ERROR: Invalid parameters.
+set t0037=ERROR: You have specified invalid firmware or the firmware file doesn't exist.
+set t0038=Executing
+set t0039=Rebooting bootloader...
+set t0040=Waiting for the phone being reconnected...
+set t0041=DM-Veracity Challenge: 
+set t0042=UID: 
+set t0043=ERROR: Challenge cannot be passed. Press any key to retry.
+set t0044=ERROR: Insecure MediaTek model upgrade request detected. Your phone will become brick without using workaround.
+set t0045=Flash Complete.
+set t0046=Changing SKUID to
+set t0047=Erasing FRP...
+set t0048=Disabling Factory Mode...
+set t0049=Verifying flashing result, please wait...
+set t0050=SKUID is not defined in parameters, will enable Auto SKUID.
+set t0051=ERROR: Downgrade request without data erasing detected. Phone may not boot without erasing data.
+set t0052=ERROR: Flashing failed. Your phone might not have fully unlocked bootloader.
+set t0053=Permission Granted
+set t0054=Existing permission granting file detected. Reusing...
+set t0055=Granting Permission...
+set t0056=WARNING: Outdated OS detected. HCTSW Care recommends you to update to Windows 10.
+set t0057=ERROR: Your OS doesn't have Universal C Runtime (KB2999226) installed.
+set t0058=ERROR: Outdated Fastboot Binary in environment variable detected. Delete your outdated Fastboot Binary (and probably ADB Binary) before you proceed.
+set t0059=You have requested FRP erase during flash, for that we need you to acknowledge something.
+set t0060=Erasing FRP...
+set t0061=Authentication Only Mode
+set yes=Yes
+set no=No
+set z0001=========== PLEASE COPY CONTENT BELOW TO HCTSW CARE ==========
+set z0002=========== PLEASE COPY CONTENT ABOVE TO HCTSW CARE ==========
+set z0003=Please input encoding message you got from HCTSW Care: 
+set z0004=1. Please remind the consumer to back up his own documents, photos, texts, sound files, video files, and any kinds of electric records which may be lost or destroyed before the Handset under repairing. This tool will not be responsible for such lost or destroyed. 
+set z0005=2. Request the consumer to enter his password to unlock his screen or account in the Handset before you initial to reset.  If the consumer can't provide the password or not unlock it, he shall guarantee the ownership of the Handset by written notice and copy of his ID. Without these guarantee from the consumer, you shall not assist to do a factory reset.
+set z0006=3. HCTSW Care authorized service provider shall have totally covenants and promises to be liable to any damage or lost caused by repair service. All information is provided "AS IS" and without any warranty, express, implied or otherwise, regarding its accuracy or performance.
+set z0007=4. All matters relating to this notice will be governed by the laws of current country or region without regard to its conflicts of law provisions.
+set z0008=5. If any damage or lost attributed to the authorized service provider under his service, the authorized service provider shall be responsible for it.  This tool will not be responsible for any damage or lost mentioned previously.
+set z0009=Do you agree with that? If yes, press Y to confirm, otherwise press N to cancel operation.
+set znone=None
+set ztrue=Yes
+set zfalse=No
+set ms0001=Press R to reboot your phone, press H to shutdown your phone, and press S to stay at Fastboot Mode.
+set s0001=Firmware Type: 
+set s0002=Firmware Filename: 
+set s0003=Firmware Path: 
