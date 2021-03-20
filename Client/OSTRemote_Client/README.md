@@ -5,6 +5,8 @@ OSTRemote Client is a replacement of OST LA and probably NTool.
 ## Dependencies
 ### Windows
 
+* Minimal acceptable OS is Windows 7 / Server 2008 R2 Service Pack 1 (6.1.7601.17514) or newer
+* HCTSW Care recommends you to use Windows 10 / Server 2016 / Server 2019 (10.0.10240.16384) or newer
 * [Universal C Runtime (KB2999226)](http://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB2999226)
 
 #### Following dependencies should be placed at bin directory.
