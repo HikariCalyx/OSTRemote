@@ -2,6 +2,20 @@
 
 OSTRemote Client is a replacement of OST LA and probably NTool.
 
+## Dependencies
+### Windows
+
+* [Universal C Runtime (KB2999226)](http://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB2999226)
+
+#### Following dependencies should be placed at bin directory.
+* ADB and Fastboot (Minimal acceptable version is R28.0.1): adb.exe, AdbWinApi.dll, AdbWinUsbApi.dll, fastboot.exe, libwinpthread-1.dll, make_f2fs.exe, mke2fs.conf, mke2fs.exe
+* OST LA exclusive Fastboot: fastboot.exe in OST LA directory, should be named as fb2.exe, SHA256: ```0390D31EE037990B31AE0965255F539D16CD9043FB458161A95E32B18897E3A6```
+* GnuWin32 executables, including: awk.exe, sed.exe, unzip.exe, zipinfo.exe and their dependencies
+* [md5.exe by John Walker](http://www.fourmilab.ch/md5/)
+
+### macOS and Linux
+TBD
+
 ## Usage
 ```
 ostremote [parameter]
