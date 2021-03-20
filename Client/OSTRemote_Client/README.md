@@ -8,7 +8,7 @@ OSTRemote Client is a replacement of OST LA and probably NTool.
 * Minimal acceptable OS is Windows 7 / Server 2008 R2 Service Pack 1 (6.1.7601.17514) or newer
 * non-Windows 10 (6.1.7601.17514 - 6.3.9600.19599) users should install [Universal C Runtime (KB2999226)](http://catalog.update.microsoft.com/v7/site/Search.aspx?q=KB2999226)
 * HCTSW Care recommends you to use Windows 10 / Server 2016 / Server 2019 (10.0.10240.16384) or newer, but Hikari PE Project is unsupported
-* ARM-based Windows builds are unsupported
+* non x86/x64-based Windows builds are unsupported
 
 #### Following dependencies should be placed at bin directory.
 * ADB and Fastboot (Minimal acceptable version is R28.0.1, R29.0.5 is recommended): adb.exe, AdbWinApi.dll, AdbWinUsbApi.dll, fastboot.exe, libwinpthread-1.dll, make_f2fs.exe, mke2fs.conf, mke2fs.exe
