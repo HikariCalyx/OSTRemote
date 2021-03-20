@@ -1,6 +1,6 @@
 # OSTRemote Client
 
-OSTRemote Client is a replacement of OST LA and probably NTool.
+OSTRemote Client is a replacement of OST LA and probably also NTool.
 
 ## Dependencies
 ### Windows
