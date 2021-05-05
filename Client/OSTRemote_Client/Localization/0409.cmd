@@ -11,7 +11,7 @@ set h0006= -n [nb0_file], --nb0file=[nb0_file]  : Specify the path of nb0 format
 set h0007= -e, --erase-user-data                : Erase user data during flashing procedure. 
 set h0008a= -s [skuid], --skuid=[skuid]          : Change SKUID to desired value. Leave empty in
 set h0008b=                                        SKUID value for automatic SKUID definition. 
-set h0009= -f, --erase-frp                      : Erase FRP and bbox during flashing procedure. 
+set h0009= -f, --erase-frp                      : Erase FRP during flashing procedure. 
 set h0010a= -o, --override                       : Skip flashing security check. NOT RECOMMENDED
 set h0010b=                                        for inexperienced end-users. 
 set h0011= -t [otp_code], --token=[otp_code]    : Specify OTP code given by HCTSW Care. 
@@ -25,20 +25,24 @@ set h0015b=                                        service bootloader, -e, -s an
 set h0016= -D, --disable-fac-mode               : Disable Factory Bar Code mode.
 set h0017a= -H, --halt                           : Power off the phone. if specified with firmware
 set h0017b=                                        flashing, it will power off the phone after procedure.
-set h0018a= -i1 [imei1], --imei1=[imei1]         : Change IMEI1 to desired value. You must specify the
-set h0018b=                                        path of firmware file to use it.
-set h0019a= -i2 [imei2], --imei2=[imei2]         : Change IMEI2 to desired value. You must specify the
-set h0020a= -m [meid], --meid=[meid]             : Change MEID to desired value. You must specify the
-set h0021a= -w [wlan_mac], --wlan=[wlan_mac]     : Change WLAN MAC to desired value. You must specify the
-set h0022a= -b [bt_addr], --bluetooth=[bt_addr]  : Change Bluetooth Address to desired value. You must
-set h0022b=                                        specify the path of firmware file to use it.
+set h0018a= -c, --no-checksum                    : The md4 and md5 partition will not be flashed during flash
+set h0018b=                                        with this parameter enabled. 
+set h0019a= -y, --stay                           : Stay at Fastboot Mode after flash. Phone will not be rebooted.
+set h0019b=                                        -H parameter will not function with this parameter enabled. 
+set h0020a= -u, --unlock-bootloader              : Unlock the bootloader with given firmware. 
+set h0021a= -afu, --anti-force-update            : Inject anti-force update code into firmware. Firmwares that
+set h0021b=                                        push updates via Google are unsupported.
+set h0022= -F, --ftm                            : Enter FTM mode.
+set h0023= -q [qlz_file], --qlzfile=[qlz_file]  : Specify the path of QLZ format firmware file used by NOST. 
+set h0024= -k, --keep-firmware                  : When using nb0 or QLZ firmware file, keep unpacked firmware.
+set hf0001=                                        
 set ex0001=Examples: 
 set ex0002a=Flash DRG-415C-0-00WW-B01.mlf into the phone: 
 set ex0002b=-m C:\path\to\FIHSW_DRG-415C-0-00WW-B01\DRG-415C-0-00WW-B01.mlf -e -s 600WW
 set ex0003a=Flash E2M-0390-0-00WW-B02.nb0 into the phone with unlocked bootloader: 
 set ex0003b=-n C:\path\to\E2M-0390-0-00WW-B02.nb0 -e -S
-set ex0004a=Erase FRP and format userdata under service bootloader: 
-set ex0004b=-a -e -f
+set ex0004a=Flash T-virus-20201108.qlz into the phone with unlocked bootloader: 
+set ex0004b=-q C:\path\to\t-virus-20201108.qlz -e -S
 set ex0005a=Flash HH6-350D-0-00A0-B01.mlf into the phone and power it off: 
 set ex0005b=-m C:\path\to\FIHSW_HH6-350D-0-00A0-B01\HH6-350D-0-00A0-B01.mlf -e -H
 set override_notice=If you'd like to take your own risk, please add -o or --override parameter to skip safety check, or this tool will not work.
@@ -105,6 +109,27 @@ set t0058=ERROR: Outdated Fastboot Binary in environment variable detected. Dele
 set t0059=You have requested FRP erase during flash, for that we need you to acknowledge something.
 set t0060=Erasing FRP...
 set t0061=Authentication Only Mode
+set t0062=Emergency Download Mode
+set t0063=Sending firehose...
+set t0064=Writing rawprogram...
+set t0065=Writing patch...
+set t0066=Rebooting phone...
+set t0067=ERROR: Cannot find any Qualcomm EDL Port.
+set t0068=EDL Port is
+set t0069=ERROR: This firmware is only meant for MediaTek model. Please use SP Flash Tool to operate manually.
+set t0070=ERROR: An error has occurred during flash. Please do judgement from the failure reason given above.
+set t0071=Current Battery Capacity is
+set t0072=ERROR: Battery capacity might be insufficient for flashing.
+set t0073=ERROR: You cannot skip authentication procedure for bootloader unlock.
+set t0074=ERROR: Python 3 is not installed on this PC.
+set t0075=HCTSW Care does not recommend you to utilize nb0 firmware. Initializing firmware file...
+set t0076=HCTSW Care does not recommend you to utilize QLZ firmware. Initializing firmware file...
+set t0077=HMDSW DEVICE DETECTED, PLEASE USE CODENAME "DK2"
+set t0078=ERROR: HMDSW Device is unsupported by this tool.
+set t0079a=No parameters defined. Please execute
+set t0079b=-h" to show usage.
+set t0080a=ERROR: Emergency Download failed. Please read
+set t0080b=for troubleshooting.
 set yes=Yes
 set no=No
 set z0001=========== PLEASE COPY CONTENT BELOW TO HCTSW CARE ==========

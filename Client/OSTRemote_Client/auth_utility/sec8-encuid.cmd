@@ -1,7 +1,7 @@
 :retry_sec8u
 echo %z0001%
 echo %t0007%%secver%
-echo %t0004%%sn%
+echo %t0004%%psn%
 
 :Defining Project Code
 fb2 oem getProjectCode 2>&1 | findstr getProjectCode > %temp%\prjcode.txt
@@ -24,7 +24,7 @@ echo %z0002%
 echo.
 
 :Input_Encoding_MSG
-if exist %temp%\encuid_sec8-%brandcode%-%prjcode%-%sn%-%uid%.bin (
+if exist %temp%\encuid_sec8-%brandcode%-%prjcode%-%psn%-%uid%.bin (
 echo %t0054%
 goto reuse
 )
@@ -33,16 +33,16 @@ set /p challenge=%z0003%
 if not defined challenge goto Input_Encoding_MSG
 echo %challenge% > %temp%\rawbase64.txt
 set challenge=pass
->nul certutil -f -decode %temp%\rawbase64.txt %temp%\encuid_sec8-%brandcode%-%prjcode%-%sn%-%uid%.bin
+>nul certutil -f -decode %temp%\rawbase64.txt %temp%\encuid_sec8-%brandcode%-%prjcode%-%psn%-%uid%.bin
 del %temp%\rawbase64.txt
 :reuse
-fb2 flash encUID %temp%\encuid_sec8-%brandcode%-%prjcode%-%sn%-%uid%.bin 2>&1 | findstr FAILED > nul
+fb2 flash encUID %temp%\encuid_sec8-%brandcode%-%prjcode%-%psn%-%uid%.bin 2>&1 | findstr FAILED > nul
 fb2 oem selectKey service 2>nul
 fb2 oem doKeyVerify 2>&1 | findstr FAILED > nul
 if %errorlevel%==0 (
 echo %t0043%
 pause>nul
-del %temp%\encuid_sec8-%brandcode%-%prjcode%-%sn%-%uid%.bin
+del %temp%\encuid_sec8-%brandcode%-%prjcode%-%psn%-%uid%.bin
 goto retry_sec8u
 )
 fb2 oem allport 2>nul

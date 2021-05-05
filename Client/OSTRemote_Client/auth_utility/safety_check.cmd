@@ -1,15 +1,23 @@
 @echo off
+set fverfile=unspecified
 fb2 oem getversions 2>&1 | findstr software > %temp%\swver.txt
 for /f "tokens=1* delims==" %%i in ( %temp%\swver.txt ) do set cswver=%%j
 del "%temp%\swver.txt"
 if exist "%fwfilepath%systeminfo.img" set fverfile="%fwfilepath%systeminfo.img"
-if exist "%fwfilepath%fver" set fverfile="%fwfilepath%fver" else goto insecure_nosysteminfo
-findstr MLF %fverfile% > %temp%\fver.txt
+if exist "%fwfilepath%fver" set fverfile="%fwfilepath%fver"
+SET fverfile="%fverfile%"
+SET fverfile=%fverfile:"=%
+if "%fverfile%"=="unspecified" goto insecure_nosysteminfo
+)
+findstr MLF "%fverfile%" > %temp%\fver.txt
 set /p fver= < %temp%\fver.txt
 del %temp%\fver.txt
 set fver=%fver:~4,19%
 
 ::General Rules
+fb2 oem battery getcapacity 2>&1 | findstr Cap > %temp%\bcap.txt
+for /f "tokens=1* delims==" %%i in ( %temp%\bcap.txt ) do set cbatterycap=%%j
+echo  %t0071% %cbatterycap%
 ::Project Code Mismatch
 if not "%fver:~0,3%"=="%cswver:~0,3%" goto insecure_prjcodemismatch
 ::MTK Insecure Downgrade
@@ -35,7 +43,9 @@ if "%fver:~0,3%"=="ANT" if "%cswver:~4,1%"==0 ( if "%fver:~4,1%" gtr "%cswver:~4
 if "%fver:~0,3%"=="PNX" if "%cswver:~4,1%" geq "4" if "%fver:~4,1%"=="1" goto insecure_pnxdowngrade
 ::Insecure Downgrade
 if "%erase%"=="0" if "%cswver:~4,3%" gtr "%fver:~4,3%" goto insecure_downgrade
-
+::BatteryCheck
+echo.
+if %cbatterycap% lss 41 goto insecure_lowbattery
 ::Safety Passed
 echo %t0031%
 set insecure=0
@@ -75,6 +85,12 @@ goto eof
 
 :insecure_pnxdowngrade
 echo %t0035%
+echo %override_notice%
+set insecure=1
+goto eof
+
+:insecure_lowbattery
+echo %t0072%
 echo %override_notice%
 set insecure=1
 goto eof

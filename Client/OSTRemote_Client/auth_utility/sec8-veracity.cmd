@@ -1,7 +1,7 @@
 :retry_sec8v
 echo %z0001%
 echo %t0007%%secver%
-echo %t0004%%sn%
+echo %t0004%%psn%
 
 :Defining Project Code
 fb2 oem getProjectCode 2>&1 | findstr getProjectCode > %temp%\prjcode.txt
@@ -29,15 +29,15 @@ set /p challenge=%z0003%
 if not defined challenge goto Input_Encoding_MSG
 echo %challenge% > %temp%\rawbase64.txt
 set challenge=pass
->nul certutil -f -decode %temp%\rawbase64.txt %temp%\veracity_sec8-%brandcode%-%prjcode%-%sn%-%veracity%.bin
-del rawbase64.txt
-fb2 flash veracity %temp%\veracity_sec8-%brandcode%-%prjcode%-%sn%-%veracity%.bin 2>&1 | findstr FAILED > nul
+>nul certutil -f -decode %temp%\rawbase64.txt %temp%\veracity_sec8-%brandcode%-%prjcode%-%psn%-%veracity%.bin
+del %temp%\rawbase64.txt
+fb2 flash veracity %temp%\veracity_sec8-%brandcode%-%prjcode%-%psn%-%veracity%.bin 2>&1 | findstr FAILED > nul
 if %errorlevel%==0 (
 echo %t0043%
 pause>nul
 goto retry_sec8v
 )
-del %temp%\veracity_sec8-%brandcode%-%prjcode%-%sn%-%veracity%.bin
+del %temp%\veracity_sec8-%brandcode%-%prjcode%-%psn%-%veracity%.bin
 echo %t0053%
 goto EOF
 

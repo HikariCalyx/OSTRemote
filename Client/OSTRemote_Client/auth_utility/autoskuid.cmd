@@ -1,5 +1,9 @@
 @echo off
 
+::Override_Enabled_read_FVER
+if "%override%"=="1" goto overridereadfver
+
+:defines
 ::Rules
 
 ::Brand0
@@ -38,6 +42,7 @@ if "%fver:~0,3%"=="CTL" set sku_brand=6
 if "%fver:~0,3%"=="TAS" set sku_brand=6
 if "%fver:~0,3%"=="NB1" set sku_brand=6
 if "%fver:~0,3%"=="A1N" set sku_brand=6
+if "%fver:~0,3%"=="PNX" set sku_brand=6
 if "%fver:~0,3%"=="AOP" set sku_brand=6
 
 ::Carrier
@@ -70,3 +75,15 @@ if "%fver:~0,3%"=="RHD" set sku_locales=US
 if "%fver:~0,3%"=="HH6" set sku_locales=KR
 
 set targetskuid=%sku_brand%%sku_carrier%%sku_locales%
+goto eof
+
+:overridereadfver
+if exist "%fwfilepath%systeminfo.img" set fverfile="%fwfilepath%systeminfo.img"
+if exist "%fwfilepath%fver" set fverfile="%fwfilepath%fver"
+findstr MLF %fverfile% > %temp%\fver.txt
+set /p fver= < %temp%\fver.txt
+del %temp%\fver.txt
+set fver=%fver:~4,19%
+goto defines
+
+:eof
