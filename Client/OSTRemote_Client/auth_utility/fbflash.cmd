@@ -27,7 +27,7 @@ fastboot erase !target!
 fastboot flash !target!
 if "!errorlevel!"=="1" (
 set errorflash=1
-echo errorflash>%temp%\eflash.txt
+echo errorflash>%temp%\eflash2.txt
 goto eof
 )
 echo.

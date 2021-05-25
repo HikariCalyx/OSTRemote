@@ -57,7 +57,7 @@ del %temp%\2.txt
 del %temp%\3.txt
 del %temp%\2x.txt
 del %temp%\3x.txt
-fb2 oem getBootloaderType 2>&1 | findstr getBootloaderType > %temp%\bldrtype.txt
+fb2 oem getBootloaderType 2>&1 | findstr "getBootloaderType bootloader" > %temp%\bldrtype.txt
 set /p bldrtype=<%temp%\bldrtype.txt
 For /f "tokens=1* delims= " %%A in ( %temp%\bldrtype.txt ) Do set bldrtype=%%B
 del %temp%\bldrtype.txt
@@ -67,6 +67,7 @@ del %temp%\secver.txt
 cd /d "%fwfilepath%"
 if %bldrtype%==service goto directflash
 if "%service_auth%"=="1" call call_auth.cmd
+if "%otpdefined%"=="1" if "!otpfail!"=="1" goto eof
 for /f "tokens=1* delims=," %%a in ( %temp%\servicebootloader.txt ) do (
 set target=%%b
 call fbflash.cmd
@@ -83,7 +84,7 @@ fastboot reboot-bootloader 2>nul
 fb2 oem alive 2>nul
 timeout /t 2 /nobreak > nul
 echo %t0040%
-fb2 oem getBootloaderType 2>&1 | findstr getBootloaderType > %temp%\bldrtype.txt
+fb2 oem getBootloaderType 2>&1 | findstr "getBootloaderType bootloader" > %temp%\bldrtype.txt
 set /p bldrtype=<%temp%\bldrtype.txt
 For /f "tokens=1* delims= " %%A in ( %temp%\bldrtype.txt ) Do set bldrtype=%%B
 del %temp%\bldrtype.txt
@@ -99,6 +100,7 @@ set target=%%b
 if %%a==0x1000000000000000 call fbdirect.cmd
 if %%a==0x1000000000000004 if %service_auth%==1 call call_auth.cmd
 if %%a==0x1000000000000044 if %service_auth%==1 call call_auth.cmd
+if "%otpdefined%"=="1" if "!otpfail!"=="1" goto eof
 if %%a==0x2 call fbflash.cmd
 if %%a==0x4 call fberase.cmd
 if %%a==0x40 call fbflash.cmd

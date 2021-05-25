@@ -1,6 +1,7 @@
 :retry_sec4v
 echo %z0001%
 echo %t0007%%secver%
+
 :Defining Project Code
 fb2 oem getProjectCode 2>&1 | findstr getProjectCode > %temp%\prjcode.txt
 For /f "tokens=1* delims= " %%A in ( %temp%\prjcode.txt ) Do set prjcode=%%B
@@ -11,9 +12,20 @@ echo %t0006%%prjcode%
 fb2 oem dm-veracity 2>&1 | findstr veracity > %temp%\veracity.txt
 For /f "tokens=1* delims= " %%A in ( %temp%\veracity.txt ) Do set veracity=%%B
 del %temp%\veracity.txt
-echo %t0041% %veracity%
+echo %t0041%%veracity%
+echo %t0004%%psn%
 echo %z0002%
 echo.
+
+:clipboard
+>%temp%\ostremote_clip.txt echo %secver%
+>>%temp%\ostremote_clip.txt echo %prjcode%
+>>%temp%\ostremote_clip.txt echo %veracity%
+>>%temp%\ostremote_clip.txt echo.
+>>%temp%\ostremote_clip.txt echo %psn%
+clip < %temp%\ostremote_clip.txt
+echo %z0010%
+del %temp%\ostremote_clip.txt
 
 :Input_Encoding_MSG
 set challenge=

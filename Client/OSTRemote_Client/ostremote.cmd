@@ -1,8 +1,11 @@
 @echo off
+if not exist %SystemDrive%\temp mkdir %SystemDrive%\temp
+set temp=%SystemDrive%\temp
+set tmp=%SystemDrive%\temp
 setlocal enabledelayedexpansion
-set PATH=%PATH%;%~dp0bin;%~dp0auth_utility;%~dp0qti_edl_utility
+set PATH=%~dp0bin;%~dp0auth_utility;%~dp0qti_edl_utility;%PATH%
 set targetskuid=
-set ver=V0.0.0.3l.Windows
+set ver=V0.0.0.3n.Windows
 set verbose_mode=0
 set erase=0
 set edl_mode=0
@@ -28,6 +31,7 @@ set edl_fail=0
 set noreboot=0
 set ubl=0
 set afu=0
+set otpdefined=0
 
 For /f "tokens=2* delims= " %%A in ('Reg Query HKLM\System\CurrentControlSet\Control\Nls\Language /v InstallLanguage') Do Set langcode=%%B
 IF EXIST Localization\%langcode%.cmd (
@@ -43,7 +47,7 @@ echo %copyright%
 For /f "tokens=2* delims= " %%A in ('Reg Query "HKLM\Software\Microsoft\Windows NT\CurrentVersion" /v CurrentBuild') Do Set osbuild=%%B
 if %osbuild% lss 9600 echo %t0056%
 :existing_fastboot_cmd_detection
-if not exist %SystemRoot%\WinSxS\*ucrt* goto error_noucrt
+if %osbuild% lss 10175 if not exist %SystemRoot%\WinSxS\*ucrt* goto error_noucrt
 fastboot help 2>&1 | findstr slot > nul
 if %errorlevel%==1 goto error_fastbootconflict
 
@@ -132,6 +136,41 @@ goto readparam
 )
 if "!targetskuid!"=="" (
 set autoskuid=1
+shift
+goto readparam
+)
+shift
+)
+
+::Read OTP
+if "%cparam%"=="-t" (
+set otpdefined=1
+set otp=%2
+set otp=!otp!==
+if "!otp:~0,1!"=="-" (
+set otpdefined=0
+shift
+goto readparam
+)
+if "!otp!"=="" (
+set otpdefined=0
+shift
+goto readparam
+)
+shift
+)
+
+if "%cparam%"=="--token" (
+set otpdefined=1
+set otp=%2
+set otp=!otp!==
+if "!otp:~0,1!"=="-" (
+set otpdefined=0
+shift
+goto readparam
+)
+if "!otp!"=="" (
+set otpdefined=0
 shift
 goto readparam
 )
@@ -251,6 +290,7 @@ if %verbose_mode%==1 (
 echo %s0001%%fwmode%
 echo %s0002%%fwfile%
 echo %s0003%%fwfilepath%
+echo OTP %otp%
 )
 if "%autoskuid%"=="1" echo %t0050%
 
@@ -292,6 +332,7 @@ if "%auth_only%"=="1" echo %t0061%
 call pretest.cmd
 if "%auth_only%"=="1" (
 call call_auth.cmd
+if exist %temp%\otpfail_flag goto error_otpfail
 goto eof
 )
 
@@ -306,6 +347,7 @@ if %insecure%==1 goto eof
 if %service_auth%==1 if %erase_frp%==1 call frpwarning.cmd
 if %skipfrp%==1 goto eof
 call mlf-parser.cmd
+if exist %temp%\otpfail_flag goto error_otpfail
 if %service_auth%==0 (
 if exist %temp%\eflash.txt goto error_notunlocked
 ) 
@@ -379,7 +421,7 @@ echo %h0008b%
 echo %h0009%
 echo %h0010a%
 echo %h0010b%
-rem echo %h0011%
+echo %h0011%
 echo %h0012%
 echo %h0013%
 echo %h0014a%
@@ -480,5 +522,11 @@ echo.
 echo %t0078%
 del %temp%\hmdsw_flag
 goto eof
+
+:error_otpfail
+echo %t0087%
+del %temp%\otpfail_flag
+goto eof
+
 
 :eof

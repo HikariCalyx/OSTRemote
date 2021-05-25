@@ -1,4 +1,5 @@
 echo.
+set unsupport_device=0
 if %pretest%==1 echo %t0002%
 if %edl_mode%==0 echo %t0003%
 fastboot oem alive 2>nul
@@ -9,6 +10,8 @@ call auth_utility\hmdsw_check.cmd
 echo. %t0004%!psn!
 fb2 oem getProjectCode 2>&1 | findstr getProjectCode | sed "s/getProjectCode: / %t0006%/g" | findstr /V FAILED
 fb2 oem getprojectcode 2>&1 | findstr bootloader | sed "s/(bootloader) / %t0006%/g" | findstr /V FAILED
+fb2 oem getprojectcode 2>&1 | findstr /C:"unknown command" > nul
+if %errorlevel%==1 set unsupport_device=1
 fb2 oem getSecurityVersion 2>&1 | findstr getSecurityVersion | sed "s/getSecurityVersion: / %t0007%/g" | findstr /V FAILED
 fb2 oem getsecurityversion 2>&1 | findstr bootloader | sed "s/(bootloader) / %t0007%/g" | findstr /V FAILED
 fb2 oem getBrandCode 2>&1 | findstr /V FAILED | findstr getBrandCode | sed "s/getBrandCode: / %t0026%/g"
@@ -17,6 +20,8 @@ fb2 oem getversions 2>&1 | findstr bootloader | sed "s/(bootloader) //g"| sed "s
 ) else (
 fb2 oem getversions 2>&1 | findstr bootloader | sed "s/(bootloader) //g"| sed "s/=/: /g"
 )
+fb2 oem getversions 2>&1 | findstr /C:"unknown command" > nul
+if %errorlevel%==0 set unsupport_device=1
 fb2 getvar secure 2>&1 | findstr secure | sed "s/secure: / %t0019%/g" | sed "s/no/ %no%/g" | sed "s/yes/ %yes%/g"
 fb2 getvar current-slot 2>&1 | findstr current-slot | sed "s/current-slot: / %t0020%/g" | findstr /V FAILED
 fb2 getvar unlocked 2>&1 | findstr unlocked | sed "s/unlocked: / %t0021%/g" | sed "s/yes/ %yes%/g" | sed "s/no/ %no%/g"
