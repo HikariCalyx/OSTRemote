@@ -1,0 +1,166 @@
+;*********************************************************************************************
+;
+; Name		: triple_color_usb_arm64_beta.inf
+;
+; Function	: Install HCTSW Care ADB and Fastboot Driver on ARM64 devices
+;
+; Copyright (c) 2015-2021 Hikari Calyx Tech. All Rights Reserved.
+;
+;*********************************************************************************************
+
+[Version]
+Signature           = "$Windows NT$"
+Class               = AndroidUsbDeviceClass
+ClassGuid           = {3F966BD9-FA04-4ec5-991C-D326973B5128}
+Provider            = %GOOG%
+DriverVer=04/11/2021,1.0.0.0
+CatalogFile         = tccAdb.cat
+
+[ClassInstall32]
+Addreg = AndroidWinUsbClassReg
+
+[AndroidWinUsbClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-1
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[Manufacturer]
+%ProviderName% = Google,NTarm64
+
+[Google.NTarm64]
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_2E04&PID_C008&MI_02
+%FastBootDeviceDesc%  	 = USB_Install, USB\VID_2E04&PID_C009
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_2E04&PID_C026&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_2E04&PID_C02A&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_2E04&PID_C030&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_2E04&PID_C031&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_2E04&PID_C040&MI_03
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_2E04&PID_C042&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C000&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C001&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C008&MI_02
+%FastBootDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C009
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C00A&MI_03
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C00B&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C00C&MI_03
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C00D&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C00E&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C00F&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C020&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C026&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C02A&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C02D&MI_03
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C02E&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C02F&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C030&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C031&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C032&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C035&MI_03
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C036&MI_01
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C03A&MI_02
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C03C&MI_03
+%AdbDeviceDesc% 	 = USB_Install, USB\VID_0489&PID_C040&MI_03
+%BootloaderDeviceDesc%  	 = USB_Install, USB\VID_18D1&PID_D00D
+
+[USB_Install.NT]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[USB_Install.NT.Services]
+Include     = winusb.inf
+AddService  = WinUSB,0x00000002,WinUSB_ServiceInstall
+
+[USB_Install.NT.Wdf]
+KmdfService = WINUSB, WinUSB_Install
+
+[USB_Install.NT.HW]
+AddReg  = Dev_AddReg
+
+[USB_Install.CoInst.NT]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[USB_Install.CoInst.NT.Services]
+Include     = winusb.inf
+AddService  = WinUSB,0x00000002,WinUSB_ServiceInstall
+
+[USB_Install.CoInst.NT.Wdf]
+KmdfService = WINUSB, WinUSB_Install
+
+[USB_Install.CoInst.NT.HW]
+AddReg  = Dev_AddReg
+
+[USB_Install.CoInst.NT.CoInstallers]
+AddReg    = CoInstallers_AddReg
+CopyFiles = CoInstallers_CopyFiles
+
+[CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01007.dll,WdfCoInstaller","WinUSBCoInstaller.dll"
+;HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01009.dll,WdfCoInstaller","WinUSBCoInstaller2.dll"
+
+[CoInstallers_CopyFiles]
+WinUSBCoInstaller.dll
+WdfCoInstaller01007.dll
+;WdfCoInstaller01009.dll
+;WinUSBCoInstaller2.dll
+
+[USB_Install.NTarm64]                                                                                                              
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[USB_Install.NTarm64.Services]
+Include     = winusb.inf
+AddService  = WinUSB,0x00000002,WinUSB_ServiceInstall
+
+[USB_Install.NTarm64.Wdf]
+KmdfService = WINUSB, WinUSB_Install
+
+[USB_Install.NTarm64.HW]
+AddReg  = Dev_AddReg
+
+[USB_Install.NTarm64.CoInstallers]
+AddReg    = CoInstallers_AddReg_NTarm64
+CopyFiles = CoInstallers_CopyFiles_NTarm64
+
+[CoInstallers_AddReg_NTarm64]
+; No AddReg
+
+[CoInstallers_CopyFiles_NTarm64]
+; No CopyFiles
+
+[WinUSB_ServiceInstall]
+DisplayName     = %WinUSB_SvcDesc%
+ServiceType     = 1
+StartType       = 3
+ErrorControl    = 1
+ServiceBinary   = %12%\WinUSB.sys
+
+[WinUSB_Install]
+KmdfLibraryVersion  = 1.7
+;KmdfLibraryVersion  = 1.9
+
+[Dev_AddReg]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{F72FE0D4-CBCB-407d-8814-9ED673D0DD6B}"
+
+[DestinationDirs]
+CoInstallers_CopyFiles=11
+
+[SourceDisksNames]
+1 = %DISK_NAME%,,,\arm64
+
+[SourceDisksFiles.arm64]
+
+[Strings]
+GOOG            	= "Triple-Color Company"
+MfgName         	= "Triple-Color Company"
+ProviderName         	= "Hikari Calyx Tech"
+Disk_Description	= "ADB Interface Installation Disk"
+androidusb.SvcDesc	= "ADB Interface Driver"
+ClassName       	= "ADB Interface"
+FastBootDeviceDesc	= "Fastboot Device"
+BootloaderDeviceDesc	= "Android Bootloader Device"
+AdbDeviceDesc		= "ADB Interface"
+DISK_NAME               = "Android WinUsb installation disk"
+WinUSB_SvcDesc          = "Android USB Driver"
