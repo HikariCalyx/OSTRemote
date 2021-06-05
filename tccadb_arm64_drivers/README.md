@@ -11,4 +11,4 @@
 
 ## Known issue
 
-This driver is only guaranteed to work on Nokia smartphones manufactured by Triple-Color Company.Non-Nokia android smartphones might not work correctly. 
+This driver is only guaranteed to work on Nokia smartphones manufactured by Triple-Color Company. Non-Nokia android smartphones might not work correctly. 
