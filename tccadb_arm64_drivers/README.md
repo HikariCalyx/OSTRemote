@@ -1,4 +1,4 @@
-# Triple-Color Company ADB - Fastboot Driver for Windows 10 ARM64 devices
+# Triple-color company ADB - Fastboot Driver for Windows 10 ARM64 devices
 
 ## Installation procedure
 
@@ -11,4 +11,4 @@
 
 ## Known issue
 
-This driver is only guaranteed to work on Nokia smartphones released by Triple-Color Company. Non-Nokia android smartphones might not work correctly. 
+This driver is only guaranteed to work on Nokia smartphones released by triple-color company. Non-Nokia android smartphones might not work correctly. 
